@@ -37,9 +37,9 @@ struct SetGame {
                 let randomCard = cardDeck.remove(at: Int.random(in: 0..<cardDeck.count))
                 if currentlyMatchedCardIndices.isEmpty {
                     cards.append(randomCard)
-                } else {
-                    successfullyMatchedCards.append(cards[currentlyMatchedCardIndices.first!])
-                    cards[currentlyMatchedCardIndices.first!] = randomCard
+                } else if let matchedCardIndex = currentlyMatchedCardIndices.first {
+                    successfullyMatchedCards.append(cards[matchedCardIndex])
+                    cards[matchedCardIndex] = randomCard
                 }
             }
         } else {
@@ -49,10 +49,10 @@ struct SetGame {
     
     init (numberOfCardsDisplayed: Int) {
         
-        for shape in CardShape.allCases {
-            for color in CardColor.allCases {
-                for shading in CardShading.allCases {
-                    for numberOfShape in NumberOfShapes.allCases {
+        for shape in Card.CardShape.allCases {
+            for color in Card.CardColor.allCases {
+                for shading in Card.CardShading.allCases {
+                    for numberOfShape in Card.NumberOfShapes.allCases {
                         cardDeck.append(Card(numberOfShapes: numberOfShape,
                                              shape: shape,
                                              shading: shading,
@@ -69,10 +69,10 @@ struct SetGame {
     }
     
     private mutating func checkForMatchingCards () {
-        var colors = [CardColor]()
-        var shapes = [CardShape]()
-        var shadings = [CardShading]()
-        var numbers = [NumberOfShapes]()
+        var colors = [Card.CardColor]()
+        var shapes = [Card.CardShape]()
+        var shadings = [Card.CardShading]()
+        var numbers = [Card.NumberOfShapes]()
 
         for index in selectedCardIndices {
             let card = cards[index]

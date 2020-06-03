@@ -10,9 +10,9 @@ import UIKit
 
 class SetGameViewController: UIViewController {
     
-    private var game = SetGame(numberOfCardsDisplayed: 12)
-
-    @IBOutlet private var cardButtons: [UIButton]!
+    private var game = SetGame(numberOfCardsDisplayed: GameConstants.initialNumberOfCards)
+    
+    @IBOutlet weak var cardsBoard: BoardView!
     @IBOutlet private weak var scoreLabel: UILabel!
     @IBOutlet private var gameButtons: [UIButton]! {
         didSet {
@@ -21,91 +21,94 @@ class SetGameViewController: UIViewController {
             }
         }
     }
+    
     @IBOutlet private weak var dealMoreButton: UIButton!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         updateViewModel()
-    }
-    
-    @IBAction private func cardTouched(_ sender: UIButton) {
-        if let selectedCardIndex = cardButtons.firstIndex(of: sender), selectedCardIndex < game.cards.count {
-            game.choseCard(atIndex: selectedCardIndex)
-            updateViewModel()
-        }
     }
     
     @IBAction private func dealMorePressed(_ sender: UIButton) {
-        if cardButtons.count > game.cards.count {
-            game.dealMore()
-            updateViewModel()
-        }
-    }
-    
-    @IBAction private func newGamePressed(_ sender: UIButton) {
-        for button in cardButtons {
-            clearView(for: button)
-        }
-        game = SetGame(numberOfCardsDisplayed: 12)
+        game.dealMore()
         updateViewModel()
     }
     
-// Update view according to cards model
+    @IBAction private func newGamePressed(_ sender: UIButton) {
+        for pair in cardFaces {
+            clearView(for: pair.key)
+        }
+        cardFaces = [:]
+        game = SetGame(numberOfCardsDisplayed: GameConstants.initialNumberOfCards)
+        updateViewModel()
+    }
+    
+    var cardFaces = [Card:CardView]()
+    
+    // Update view according to cards model
     private func updateViewModel() {
+        cardsBoard.clearSubviews()
+        
         for index in game.cards.indices {
             let card = game.cards[index]
-            let button = cardButtons[index]
+            let cardView = faceForCard(for: card)
             
             if game.successfullyMatchedCards.contains(card) {
-                clearView(for: button)
+                clearView(for: card)
             } else {
-                button.setAttributedTitle(faceForCard(for: card), for: .normal)
-                button.backgroundColor = card.isSelected ? .white : .lightGray
-                button.layer.cornerRadius = 8
-                button.layer.borderColor = UIColor.clear.cgColor
-                if game.selectedCardIndices.count == 3 && card.isSelected {
-                    button.layer.borderWidth = 3
-                    button.layer.borderColor = card.isMatched ? #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1) : #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
-                }
+                cardView.backgroundColor = .white
+                cardView.layer.borderWidth = 3
+                cardView.layer.borderColor = card.isSelected ? #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1) : #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+                if game.selectedCardIndices.count == 3 && card.isSelected { cardView.layer.borderColor = card.isMatched ? #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1) : #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1) }
+                cardsBoard.addSubview(cardView)
             }
         }
+        
         dealMoreButton.isHidden = game.cardDeck.isEmpty
         scoreLabel.text = "Score: \(game.score)"
     }
     
-// Generate face for card according to its traits
-    private func faceForCard(for card: Card) -> NSAttributedString {
-        let cardColor = { () -> UIColor in
-            switch card.color {
-                case .green: return UIColor.green
-                case.purple: return UIColor.purple
-                case.red: return UIColor.red
-            }
-        }()
-        
-        let alpha = { () -> CGFloat in
-            switch card.shading {
-                case .open: return 0
-                case .solid: return 1
-                case .striped: return 0.15
-            }
-        }()
-        
-        let cardFace = String(repeating: card.shape.rawValue, count: card.numberOfShapes.rawValue)
-        let attributes: [NSAttributedString.Key:Any] = [
-            .foregroundColor : cardColor.withAlphaComponent(alpha),
-            .strokeColor : cardColor,
-            .strokeWidth : -5,
-            .font : UIFont.systemFont(ofSize: 25)
-        ]
-        
-        return NSAttributedString(string: cardFace, attributes: attributes)
+    //MARK: - Utilities
+    
+    // Generate face for card according to its traits
+    private func faceForCard(for card: Card) -> CardView {
+        if let faceForCard = cardFaces[card] {
+            return faceForCard
+        } else {
+            let cardFace = CardView(frame: CGRect(), shape: card.shape, color: card.color, shading: card.shading, numberOfShapes: card.numberOfShapes)
+            
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(cardTapped(_:)))
+            cardFace.addGestureRecognizer(tapGesture)
+            
+            cardFaces[card] = cardFace
+            return cardFace
+        }
     }
     
-// Make button transperent
-    private func clearView(for button: UIButton) {
-        button.backgroundColor = .clear
-        button.setAttributedTitle(nil, for: .normal)
-        button.layer.borderColor = UIColor.clear.cgColor
+    // Tap gesture selector
+    @objc func cardTapped(_ gesture: UITapGestureRecognizer) {
+        if let cardView = gesture.view,
+            let card = cardFaces.first(where: { $0.value == cardView })?.key,
+            let cardIndex = game.cards.firstIndex(of: card)
+        {
+            game.choseCard(atIndex: cardIndex)
+            updateViewModel()
+        }
+    }
+    
+    // Make view transperent
+    private func clearView(for card: Card) {
+        if let faceForCard = cardFaces[card] {
+            faceForCard.removeFromSuperview()
+        }
+    }
+}
+
+extension UIView {
+    func clearSubviews() {
+        for view in self.subviews {
+            view.removeFromSuperview()
+        }
     }
 }

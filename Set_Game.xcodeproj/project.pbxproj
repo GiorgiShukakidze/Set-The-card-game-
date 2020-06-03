@@ -13,6 +13,9 @@
 		CB0EBC9E24588EA500941229 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB0EBC9C24588EA500941229 /* Main.storyboard */; };
 		CB0EBCA024588EAB00941229 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB0EBC9F24588EAB00941229 /* Assets.xcassets */; };
 		CB0EBCA324588EAB00941229 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB0EBCA124588EAB00941229 /* LaunchScreen.storyboard */; };
+		CB9957A824647701005D349D /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9957A724647701005D349D /* CardView.swift */; };
+		CB9957AA24647E1B005D349D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9957A924647E1B005D349D /* Constants.swift */; };
+		CBB4D3EB2480235500616991 /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB4D3EA2480235500616991 /* BoardView.swift */; };
 		CBD95F33245976E70086D13F /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD95F32245976E70086D13F /* Card.swift */; };
 		CBD95F35245980030086D13F /* SetGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD95F34245980030086D13F /* SetGame.swift */; };
 /* End PBXBuildFile section */
@@ -26,6 +29,9 @@
 		CB0EBC9F24588EAB00941229 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CB0EBCA224588EAB00941229 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CB0EBCA424588EAB00941229 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CB9957A724647701005D349D /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		CB9957A924647E1B005D349D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		CBB4D3EA2480235500616991 /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BoardView.swift; path = Set_Game/Views/BoardView.swift; sourceTree = SOURCE_ROOT; };
 		CBD95F32245976E70086D13F /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		CBD95F34245980030086D13F /* SetGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGame.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -64,19 +70,20 @@
 				CB9957A524640188005D349D /* Model */,
 				CB9957A62464019E005D349D /* Views */,
 				CB0EBCA424588EAB00941229 /* Info.plist */,
-				CB0EBCAA24588EC100941229 /* Supporting Files */,
+				CB0EBCAA24588EC100941229 /* SupportingFiles */,
 			);
 			path = Set_Game;
 			sourceTree = "<group>";
 		};
-		CB0EBCAA24588EC100941229 /* Supporting Files */ = {
+		CB0EBCAA24588EC100941229 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
 				CB0EBC9624588EA500941229 /* AppDelegate.swift */,
 				CB0EBC9824588EA500941229 /* SceneDelegate.swift */,
 				CB0EBC9F24588EAB00941229 /* Assets.xcassets */,
+				CB9957A924647E1B005D349D /* Constants.swift */,
 			);
-			path = "Supporting Files";
+			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
 		CB9957A42464017A005D349D /* Controllers */ = {
@@ -101,6 +108,8 @@
 			children = (
 				CB0EBC9C24588EA500941229 /* Main.storyboard */,
 				CB0EBCA124588EAB00941229 /* LaunchScreen.storyboard */,
+				CB9957A724647701005D349D /* CardView.swift */,
+				CBB4D3EA2480235500616991 /* BoardView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -180,6 +189,9 @@
 				CB0EBC9724588EA500941229 /* AppDelegate.swift in Sources */,
 				CBD95F35245980030086D13F /* SetGame.swift in Sources */,
 				CB0EBC9924588EA500941229 /* SceneDelegate.swift in Sources */,
+				CB9957AA24647E1B005D349D /* Constants.swift in Sources */,
+				CBB4D3EB2480235500616991 /* BoardView.swift in Sources */,
+				CB9957A824647701005D349D /* CardView.swift in Sources */,
 				CBD95F33245976E70086D13F /* Card.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

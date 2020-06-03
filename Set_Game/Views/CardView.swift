@@ -13,7 +13,7 @@ class CardView: UIView {
     let color: Card.CardColor?
     let shading: Card.CardShading?
     let numberOfShapes: Card.NumberOfShapes?
-    let colors = [#colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1), #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1), #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)]
+    private let colors = [#colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1), #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1), #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)]
     
     init (frame: CGRect, shape: Card.CardShape, color: Card.CardColor, shading: Card.CardShading, numberOfShapes: Card.NumberOfShapes ) {
         self.shape = shape
@@ -21,6 +21,9 @@ class CardView: UIView {
         self.shading = shading
         self.numberOfShapes = numberOfShapes
         super.init(frame: frame)
+        
+        layer.cornerRadius = 15
+        layer.masksToBounds = true
     }
     
     required init?(coder: NSCoder) {
@@ -37,26 +40,40 @@ class CardView: UIView {
             colors[shapeColor.rawValue].setFill()
         }
         
-        let rectHeight = bounds.height * (1 - 6 * ShapeConstants.distanceYRatio) / ShapeConstants.maxNumberOfShapes
-        let rectWidth = rectHeight * ShapeConstants.widthToHeightRatio
-        let rectX = bounds.minX + (bounds.width - rectWidth)/2
-        let rectY = bounds.midY - (bounds.height/2 * CGFloat(numberOfShapes!.rawValue) / 4)
-        let containerRect = CGRect(x: rectX, y: rectY, width: rectWidth, height: rectHeight)
+        var containerRect: CGRect {
+            let rectHeight = bounds.height * (1 - 6 * ShapeConstants.distanceYRatio) / ShapeConstants.maxNumberOfShapes
+            let rectWidth = rectHeight * ShapeConstants.widthToHeightRatio
+            let rectX = bounds.minX + (bounds.width - rectWidth)/2
+            let rectY = bounds.midY - (bounds.height/2 * CGFloat(numberOfShapes!.rawValue) / 4)
+            return CGRect(x: rectX, y: rectY, width: rectWidth, height: rectHeight)
+        }
+        
+        let path = UIBezierPath()
 
         switch shape {
-        case .diamond: drawDiamond(in: containerRect)
-        case .oval: drawOval(in: containerRect)
-        case .squiggle: drawSquiggle(in: containerRect)
-        case .none: break
+            case .diamond: drawDiamond(in: containerRect, with: path)
+            case .oval: drawOval(in: containerRect, with: path)
+            case .squiggle: drawSquiggle(in: containerRect, with: path)
+            case .none: break
+        }
+        path.lineWidth = ShapeConstants.lineWidth
+        path.stroke()
+        path.addClip()
+        
+        switch shading {
+            case .striped:
+                stripeShape()
+            case .solid:
+                path.fill()
+            default:
+                break
         }
     }
     
     //MARK: - Draw diamond shape
     
-    func drawDiamond(in containerRect: CGRect) {
-        
+    func drawDiamond(in containerRect: CGRect, with path: UIBezierPath) {
         let dy = containerRect.height + bounds.height * ShapeConstants.distanceYRatio
-        let diamondFacePath = UIBezierPath()
         
         for n in 0..<numberOfShapes!.rawValue {
             let diamondPath = UIBezierPath()
@@ -65,51 +82,28 @@ class CardView: UIView {
             diamondPath.addLine(to: CGPoint(x: containerRect.midX, y: containerRect.maxY + CGFloat(n) * dy))
             diamondPath.addLine(to: CGPoint(x: containerRect.minX, y: containerRect.midY + CGFloat(n) * dy))
             diamondPath.close()
-            diamondFacePath.append(diamondPath)
-        }
-        
-        diamondFacePath.lineWidth = ShapeConstants.lineWidth
-        diamondFacePath.stroke()
-        diamondFacePath.addClip()
-        
-        switch shading {
-        case .striped: stripeShape()
-        case .solid: diamondFacePath.fill()
-        default: break
+            path.append(diamondPath)
         }
     }
     
     //MARK: - Draw oval shape
     
-    func drawOval(in containerRect: CGRect) {
+    func drawOval(in containerRect: CGRect, with path: UIBezierPath) {
         
         let dy = containerRect.height + bounds.height * ShapeConstants.distanceYRatio
-        let ovalFacePath = UIBezierPath()
         
         for n in 0..<numberOfShapes!.rawValue {
             let ovalPath = UIBezierPath(roundedRect: CGRect(origin: CGPoint(x: containerRect.minX, y: containerRect.minY + CGFloat(n) * dy),
                                                             size: CGSize(width: containerRect.width, height: containerRect.height)),
                                         cornerRadius: containerRect.height)
-            ovalFacePath.append(ovalPath)
-        }
-        
-        ovalFacePath.lineWidth = ShapeConstants.lineWidth
-        ovalFacePath.stroke()
-        
-        switch shading {
-        case .striped:
-            ovalFacePath.addClip()
-            stripeShape()
-        case .solid: ovalFacePath.fill()
-        default: break
+            path.append(ovalPath)
         }
     }
     
     //MARK: - Draw squiggle shape
     
-    func drawSquiggle(in originalContainerRect: CGRect) {
+    func drawSquiggle(in originalContainerRect: CGRect, with path: UIBezierPath) {
         let dy = originalContainerRect.height + bounds.height * ShapeConstants.distanceYRatio
-        let squiggleFacePath = UIBezierPath()
                
         for n in 0..<numberOfShapes!.rawValue {
             let containerRect = originalContainerRect.applying(CGAffineTransform.identity.translatedBy(x: 0, y: CGFloat(n) * dy))
@@ -135,19 +129,7 @@ class CardView: UIView {
             bottomSide.apply(CGAffineTransform.identity.rotated(by: CGFloat.pi))
             bottomSide.apply(CGAffineTransform.identity.translatedBy(x: bounds.width, y: topSide.currentPoint.y * 2))
             topSide.append(bottomSide)
-            squiggleFacePath.append(topSide)
-        }
-        
-        squiggleFacePath.lineWidth = ShapeConstants.lineWidth
-        squiggleFacePath.stroke()
-        squiggleFacePath.addClip()
-        
-        switch shading {
-        case .striped:
-            squiggleFacePath.addClip()
-            stripeShape()
-        case .solid: squiggleFacePath.fill()
-        default: break
+            path.append(topSide)
         }
     }
     
@@ -155,12 +137,12 @@ class CardView: UIView {
     
     func stripeShape() {
         let stripePath = UIBezierPath()
-        stripePath.move(to: CGPoint(x: bounds.minX + bounds.width*0.02, y: 0))
-        stripePath.addLine(to: CGPoint(x: bounds.minX + bounds.width*0.01, y: bounds.maxY))
+        stripePath.move(to: CGPoint(x: bounds.minX + bounds.width*0.05, y: 0))
+        stripePath.addLine(to: CGPoint(x: bounds.minX + bounds.width*0.05, y: bounds.maxY))
         stripePath.lineWidth = ShapeConstants.stripeWidth
         stripePath.stroke()
         for _ in 1...50 {
-            stripePath.apply(CGAffineTransform.identity.translatedBy(x: bounds.width*0.02, y: 0))
+            stripePath.apply(CGAffineTransform.identity.translatedBy(x: bounds.width*0.05, y: 0))
             stripePath.lineWidth = ShapeConstants.stripeWidth
             stripePath.stroke()
         }
