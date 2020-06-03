@@ -12,7 +12,17 @@ class SetGameViewController: UIViewController {
     
     private var game = SetGame(numberOfCardsDisplayed: GameConstants.initialNumberOfCards)
     
-    @IBOutlet weak var cardsBoard: BoardView!
+    @IBOutlet weak var cardsBoard: BoardView! {
+        didSet {
+            let downSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeVertically(_:)))
+            downSwipeGesture.direction = .down
+            let upSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeVertically(_:)))
+            upSwipeGesture.direction = .up
+            let rotationGesture = UIRotationGestureRecognizer(target: self, action: #selector(rotationGesture(_:)))
+            
+            cardsBoard.gestureRecognizers = [downSwipeGesture, upSwipeGesture, rotationGesture]
+        }
+    }
     @IBOutlet private weak var scoreLabel: UILabel!
     @IBOutlet private var gameButtons: [UIButton]! {
         didSet {
@@ -95,6 +105,18 @@ class SetGameViewController: UIViewController {
             game.choseCard(atIndex: cardIndex)
             updateViewModel()
         }
+    }
+    
+    // Swipe gesture selector
+    @objc func swipeVertically(_ gesture: UISwipeGestureRecognizer) {
+        game.dealMore()
+        updateViewModel()
+    }
+    
+    // Rotation gesture selector
+    @objc func rotationGesture(_ gesture: UIRotationGestureRecognizer) {
+        game.shuffleCards()
+        updateViewModel()
     }
     
     // Make view transperent

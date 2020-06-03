@@ -47,6 +47,10 @@ struct SetGame {
         }
     }
     
+    mutating func shuffleCards() {
+        cards.shuffle()
+    }
+    
     init (numberOfCardsDisplayed: Int) {
         
         for shape in Card.CardShape.allCases {
