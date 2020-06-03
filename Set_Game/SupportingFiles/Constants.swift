@@ -21,10 +21,7 @@ struct ShapeConstants {
 }
 
 struct CardViewConstants {
-    static let cardHeightToWidthRatio: CGFloat = 1.6
-    static let distanceToCardWidthRatio: CGFloat = 0.16
     static let cardPaddingToWidthRatio: CGFloat = 0.05
     static let cardPaddingToHeightRatio: CGFloat = 0.03
-    static let initialCardSize: CGSize = CGSize(width: 800, height: 1280)
     static let cardAspectRatio: CGFloat = 0.63
 }
