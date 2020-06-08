@@ -64,15 +64,23 @@ class BoardView: UIView {
 
             for index in 0..<subviews.count {
                 let cardView = subviews[index]
-                let cardWidth = cardContainerSize.width * (1 - 2*CardViewConstants.cardPaddingToWidthRatio)
-                let cardHeight = cardContainerSize.height * (1 - 2*CardViewConstants.cardPaddingToHeightRatio)
-                let columnNumber = (index %  numberOfColumns) + 1
-                let rowNumber = Int(index / numberOfColumns) + 1
+                UIViewPropertyAnimator.runningPropertyAnimator(
+                    withDuration: 0.6,
+                    delay: 0,
+                    options: .allowUserInteraction,
+                    animations: {
+                        let cardWidth = self.cardContainerSize.width * (1 - 2*CardViewConstants.cardPaddingToWidthRatio)
+                        let cardHeight = self.cardContainerSize.height * (1 - 2*CardViewConstants.cardPaddingToHeightRatio)
+                        let columnNumber = (index %  numberOfColumns) + 1
+                        let rowNumber = Int(index / numberOfColumns) + 1
+                        
+                        cardView.frame.size = CGSize(width: cardWidth, height: cardHeight)
+                        cardView.frame.origin.x = startingPoint.x + (self.cardContainerSize.width - dx) * CGFloat(columnNumber - 1) + (dx * CGFloat(columnNumber))
+                        cardView.frame.origin.y = startingPoint.y + (self.cardContainerSize.height - dy) * CGFloat(rowNumber - 1) + (dy * CGFloat(rowNumber))
+                },
+                    completion: nil
+                )
                 
-                cardView.frame.origin = startingPoint
-                cardView.frame.size = CGSize(width: cardWidth, height: cardHeight)
-                cardView.frame.origin.x = startingPoint.x + (cardContainerSize.width - dx) * CGFloat(columnNumber - 1) + (dx * CGFloat(columnNumber))
-                cardView.frame.origin.y = startingPoint.y + (cardContainerSize.height - dy) * CGFloat(rowNumber - 1) + (dy * CGFloat(rowNumber))
             }
         }
     }

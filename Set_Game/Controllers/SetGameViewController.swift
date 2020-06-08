@@ -12,7 +12,7 @@ class SetGameViewController: UIViewController {
     
     private var game = SetGame(numberOfCardsDisplayed: GameConstants.initialNumberOfCards)
     
-    @IBOutlet weak var cardsBoard: BoardView! {
+    @IBOutlet private weak var cardsBoard: BoardView! {
         didSet {
             let downSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeVertically(_:)))
             downSwipeGesture.direction = .down
@@ -24,14 +24,6 @@ class SetGameViewController: UIViewController {
         }
     }
     @IBOutlet private weak var scoreLabel: UILabel!
-    @IBOutlet private var gameButtons: [UIButton]! {
-        didSet {
-            for button in gameButtons {
-                button.layer.cornerRadius = 8
-            }
-        }
-    }
-    
     @IBOutlet private weak var dealMoreButton: UIButton!
     
     override func viewDidAppear(_ animated: Bool) {
@@ -56,7 +48,8 @@ class SetGameViewController: UIViewController {
     
     var cardFaces = [Card:CardView]()
     
-    // Update view according to cards model
+    //MARK: - Update view according to cards model
+    
     private func updateViewModel() {
         cardsBoard.clearSubviews()
         
@@ -70,7 +63,23 @@ class SetGameViewController: UIViewController {
                 cardView.backgroundColor = .white
                 cardView.layer.borderWidth = 3
                 cardView.layer.borderColor = card.isSelected ? #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1) : #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
-                if game.selectedCardIndices.count == 3 && card.isSelected { cardView.layer.borderColor = card.isMatched ? #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1) : #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1) }
+                if game.selectedCardIndices.count == 3 && card.isSelected {
+                    if card.isMatched {
+                        UIViewPropertyAnimator.runningPropertyAnimator(
+                            withDuration: 1.5,
+                            delay: 0,
+                            options: [.curveEaseInOut],
+                            animations: {
+                                cardView.layer.borderColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+                                cardView.transform = CGAffineTransform.identity.scaledBy(x: 3, y: 3)
+                                cardView.transform = CGAffineTransform.identity
+                        },
+                            completion: nil
+                        )
+                    } else {
+                        cardView.layer.borderColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
+                    }
+                }
                 cardsBoard.addSubview(cardView)
             }
         }
@@ -86,7 +95,14 @@ class SetGameViewController: UIViewController {
         if let faceForCard = cardFaces[card] {
             return faceForCard
         } else {
-            let cardFace = CardView(frame: CGRect(), shape: card.shape, color: card.color, shading: card.shading, numberOfShapes: card.numberOfShapes)
+            let cardStartPosition = cardsBoard.convert(dealMoreButton.frame, from:dealMoreButton).origin
+            let cardFace = CardView(
+                frame: CGRect(origin: cardStartPosition, size: CGSize.zero),
+                shape: card.shape,
+                color: card.color,
+                shading: card.shading,
+                numberOfShapes: card.numberOfShapes
+            )
             
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(cardTapped(_:)))
             cardFace.addGestureRecognizer(tapGesture)
@@ -126,6 +142,8 @@ class SetGameViewController: UIViewController {
         }
     }
 }
+
+//MARK: - Extensions
 
 extension UIView {
     func clearSubviews() {

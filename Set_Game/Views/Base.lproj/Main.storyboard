@@ -82,10 +82,8 @@
                     </view>
                     <connections>
                         <outlet property="cardsBoard" destination="OIy-ar-06d" id="lfg-KF-OjL"/>
-                        <outlet property="dealMoreButton" destination="PsE-VH-UDL" id="ZMV-mb-b0R"/>
+                        <outlet property="dealMoreButton" destination="PsE-VH-UDL" id="LnO-P9-Cvs"/>
                         <outlet property="scoreLabel" destination="qx3-TW-9kd" id="7Xa-QL-9Ro"/>
-                        <outletCollection property="gameButtons" destination="igF-Ra-Vi5" collectionClass="NSMutableArray" id="ZjZ-S0-uMm"/>
-                        <outletCollection property="gameButtons" destination="PsE-VH-UDL" collectionClass="NSMutableArray" id="4u8-Cz-vUP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
