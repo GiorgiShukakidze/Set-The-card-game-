@@ -9,10 +9,10 @@
 import UIKit
 
 class CardView: UIView {
-    let shape: Card.CardShape?
-    let color: Card.CardColor?
-    let shading: Card.CardShading?
-    let numberOfShapes: Card.NumberOfShapes?
+    var shape: Card.CardShape?
+    var color: Card.CardColor?
+    var shading: Card.CardShading?
+    var numberOfShapes: Card.NumberOfShapes?
     private let colors = [#colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1), #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1), #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)]
     
     init (frame: CGRect, shape: Card.CardShape, color: Card.CardColor, shading: Card.CardShading, numberOfShapes: Card.NumberOfShapes ) {
@@ -27,10 +27,6 @@ class CardView: UIView {
     }
     
     required init?(coder: NSCoder) {
-        self.shape = nil
-        self.color = nil
-        self.shading = nil
-        self.numberOfShapes = nil
         super.init(coder: coder)
     }
     

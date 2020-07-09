@@ -59,7 +59,7 @@
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" red="1" green="0.94647523272864587" blue="0.96694932850824755" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="X6j-yA-ag3" secondAttribute="trailing" constant="16" id="0bX-70-qy6"/>
                                     <constraint firstAttribute="height" constant="80" id="9HN-bj-9JC"/>
@@ -68,13 +68,13 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.68404092622125834" green="0.75043994517029666" blue="0.95516982692049424" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="OUp-M6-fbM" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="4tq-KN-Xex"/>
+                            <constraint firstItem="OUp-M6-fbM" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="4tq-KN-Xex"/>
                             <constraint firstItem="OIy-ar-06d" firstAttribute="bottom" secondItem="OUp-M6-fbM" secondAttribute="top" constant="-10" id="IB2-kW-VXJ"/>
                             <constraint firstItem="OUp-M6-fbM" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="Ide-Yp-6yV"/>
                             <constraint firstItem="OIy-ar-06d" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="OW4-qF-NXM"/>
-                            <constraint firstItem="OUp-M6-fbM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Svr-Gu-dC0"/>
+                            <constraint firstItem="OUp-M6-fbM" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Svr-Gu-dC0"/>
                             <constraint firstItem="OIy-ar-06d" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="swI-xT-TQu"/>
                             <constraint firstItem="OIy-ar-06d" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-10" id="yvf-wT-MKJ"/>
                         </constraints>
