@@ -55,8 +55,8 @@ class BoardView: UIView {
         super.layoutSubviews()
         
         if subviews.count > 0 {
-            let numberOfColumns = Int(bounds.width/cardContainerSize.width)
-            let numberOfRows = Int(ceil(Double(subviews.count)/Double(numberOfColumns)))
+            let numberOfColumns = Int(bounds.width / cardContainerSize.width)
+            let numberOfRows = Int(ceil(Double(subviews.count) / Double(numberOfColumns)))
             let dx = cardContainerSize.width * CardViewConstants.cardPaddingToWidthRatio
             let dy = cardContainerSize.height * CardViewConstants.cardPaddingToHeightRatio
             let startingPoint = CGPoint(x: (bounds.width - cardContainerSize.width * CGFloat(numberOfColumns))/2,
@@ -69,14 +69,15 @@ class BoardView: UIView {
                     delay: 0,
                     options: .allowUserInteraction,
                     animations: {
-                        let cardWidth = self.cardContainerSize.width * (1 - 2*CardViewConstants.cardPaddingToWidthRatio)
-                        let cardHeight = self.cardContainerSize.height * (1 - 2*CardViewConstants.cardPaddingToHeightRatio)
+                        let cardWidth = self.cardContainerSize.width * (1 - 2 * CardViewConstants.cardPaddingToWidthRatio)
+                        let cardHeight = self.cardContainerSize.height * (1 - 2 * CardViewConstants.cardPaddingToHeightRatio)
                         let columnNumber = (index %  numberOfColumns) + 1
                         let rowNumber = Int(index / numberOfColumns) + 1
                         
                         cardView.frame.size = CGSize(width: cardWidth, height: cardHeight)
                         cardView.frame.origin.x = startingPoint.x + (self.cardContainerSize.width - dx) * CGFloat(columnNumber - 1) + (dx * CGFloat(columnNumber))
                         cardView.frame.origin.y = startingPoint.y + (self.cardContainerSize.height - dy) * CGFloat(rowNumber - 1) + (dy * CGFloat(rowNumber))
+                        cardView.setNeedsDisplay()
                 },
                     completion: nil
                 )

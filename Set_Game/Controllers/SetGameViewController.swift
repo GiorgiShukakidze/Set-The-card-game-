@@ -11,6 +11,10 @@ import UIKit
 class SetGameViewController: UIViewController {
     
     private var game = SetGame(numberOfCardsDisplayed: GameConstants.initialNumberOfCards)
+    private lazy var confettiEmitter = ConfettiEmmiter(width: view.frame.size.width)
+    private var cardFaces = [Card:CardView]()
+    
+    //MARK: - IBOutlets
     
     @IBOutlet private weak var cardsBoard: BoardView! {
         didSet {
@@ -25,11 +29,19 @@ class SetGameViewController: UIViewController {
     }
     @IBOutlet private weak var scoreLabel: UILabel!
     @IBOutlet private weak var dealMoreButton: UIButton!
+    @IBOutlet weak var congratulationsView: UIStackView!
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    //MARK: - IBActions
+    @IBAction func restartTapped(_ sender: UIButton) {
         
+        for pair in cardFaces {
+            clearView(for: pair.key)
+        }
+        
+        cardFaces = [:]
+        game = SetGame(numberOfCardsDisplayed: GameConstants.initialNumberOfCards)
         updateViewModel()
+        hideCongratulations()
     }
     
     @IBAction private func dealMorePressed(_ sender: UIButton) {
@@ -44,14 +56,32 @@ class SetGameViewController: UIViewController {
         cardFaces = [:]
         game = SetGame(numberOfCardsDisplayed: GameConstants.initialNumberOfCards)
         updateViewModel()
+        hideCongratulations()
     }
     
-    var cardFaces = [Card:CardView]()
+    override func viewDidLoad() {
+        super.viewDidLoad()
     
+        view.layer.addSublayer(confettiEmitter)
+        congratulationsView.isHidden = true
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        updateViewModel()
+    }
+        
     //MARK: - Update view according to cards model
     
     private func updateViewModel() {
         cardsBoard.clearSubviews()
+        
+        if game.isFinished() {
+
+            showCongratulations()
+            return
+        }
         
         for index in game.cards.indices {
             let card = game.cards[index]
@@ -140,6 +170,18 @@ class SetGameViewController: UIViewController {
         if let faceForCard = cardFaces[card] {
             faceForCard.removeFromSuperview()
         }
+    }
+    
+    private func showCongratulations() {
+        
+        self.congratulationsView.isHidden = false
+        confettiEmitter.play(withDuration: 5.0)
+    }
+    
+    private func hideCongratulations() {
+        
+        self.congratulationsView.isHidden = true
+        confettiEmitter.pause()
     }
 }
 

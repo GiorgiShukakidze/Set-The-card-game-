@@ -67,6 +67,29 @@
                                     <constraint firstItem="X6j-yA-ag3" firstAttribute="top" secondItem="OUp-M6-fbM" secondAttribute="top" constant="15" id="od0-bG-6tR"/>
                                 </constraints>
                             </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="23V-iX-13v" userLabel="Congratulations Stack View">
+                                <rect key="frame" x="68" y="413" width="278.5" height="70"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Congratulations!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tKb-sF-MRz">
+                                        <rect key="frame" x="0.0" y="0.0" width="278.5" height="40"/>
+                                        <fontDescription key="fontDescription" name="Baskerville-BoldItalic" family="Baskerville" pointSize="35"/>
+                                        <color key="textColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JXz-hf-qtV" userLabel="Restart">
+                                        <rect key="frame" x="96" y="48" width="86" height="22"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                        <color key="tintColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="Restart" image="repeat" catalog="system">
+                                            <color key="titleColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="restartTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EZa-MJ-bTC"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="0.68404092622125834" green="0.75043994517029666" blue="0.95516982692049424" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -76,19 +99,25 @@
                             <constraint firstItem="OIy-ar-06d" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="OW4-qF-NXM"/>
                             <constraint firstItem="OUp-M6-fbM" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Svr-Gu-dC0"/>
                             <constraint firstItem="OIy-ar-06d" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="swI-xT-TQu"/>
+                            <constraint firstItem="23V-iX-13v" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="uaj-FQ-MLS"/>
                             <constraint firstItem="OIy-ar-06d" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-10" id="yvf-wT-MKJ"/>
+                            <constraint firstItem="23V-iX-13v" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="zns-dw-WtL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="cardsBoard" destination="OIy-ar-06d" id="lfg-KF-OjL"/>
+                        <outlet property="congratulationsView" destination="23V-iX-13v" id="p7y-jI-axp"/>
                         <outlet property="dealMoreButton" destination="PsE-VH-UDL" id="LnO-P9-Cvs"/>
                         <outlet property="scoreLabel" destination="qx3-TW-9kd" id="7Xa-QL-9Ro"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136.80000000000001" y="113.79310344827587"/>
+            <point key="canvasLocation" x="136.23188405797103" y="113.16964285714285"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="repeat" catalog="system" width="128" height="99"/>
+    </resources>
 </document>

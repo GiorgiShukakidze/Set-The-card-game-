@@ -18,6 +18,7 @@
 		CBB4D3EB2480235500616991 /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB4D3EA2480235500616991 /* BoardView.swift */; };
 		CBD95F33245976E70086D13F /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD95F32245976E70086D13F /* Card.swift */; };
 		CBD95F35245980030086D13F /* SetGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD95F34245980030086D13F /* SetGame.swift */; };
+		CBFA926024B8B254003F91DE /* ConfettiEmmiter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFA925F24B8B254003F91DE /* ConfettiEmmiter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		CBB4D3EA2480235500616991 /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BoardView.swift; path = Set_Game/Views/BoardView.swift; sourceTree = SOURCE_ROOT; };
 		CBD95F32245976E70086D13F /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		CBD95F34245980030086D13F /* SetGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGame.swift; sourceTree = "<group>"; };
+		CBFA925F24B8B254003F91DE /* ConfettiEmmiter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiEmmiter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				CB0EBCA124588EAB00941229 /* LaunchScreen.storyboard */,
 				CB9957A724647701005D349D /* CardView.swift */,
 				CBB4D3EA2480235500616991 /* BoardView.swift */,
+				CBFA925F24B8B254003F91DE /* ConfettiEmmiter.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -190,6 +193,7 @@
 				CBD95F35245980030086D13F /* SetGame.swift in Sources */,
 				CB0EBC9924588EA500941229 /* SceneDelegate.swift in Sources */,
 				CB9957AA24647E1B005D349D /* Constants.swift in Sources */,
+				CBFA926024B8B254003F91DE /* ConfettiEmmiter.swift in Sources */,
 				CBB4D3EB2480235500616991 /* BoardView.swift in Sources */,
 				CB9957A824647701005D349D /* CardView.swift in Sources */,
 				CBD95F33245976E70086D13F /* Card.swift in Sources */,

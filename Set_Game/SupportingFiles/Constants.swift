@@ -10,6 +10,7 @@ import UIKit
 
 struct GameConstants {
     static let initialNumberOfCards = 12
+    static let numberOfCardsToMatch = 3
 }
 
 struct ShapeConstants {

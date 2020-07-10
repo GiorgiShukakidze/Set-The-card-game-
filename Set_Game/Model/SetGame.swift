@@ -13,12 +13,20 @@ struct SetGame {
     private(set) var cardDeck = [Card]()
     private(set) var score = 0
     private(set) var successfullyMatchedCards = [Card]()
-    var selectedCardIndices: [Int] { return cards.indices.filter {cards[$0].isSelected} }
-    private var currentlyMatchedCardIndices: [Int] { return cards.indices.filter {cards[$0].isMatched} }
+    var selectedCardIndices: [Int] {
+        return cards.indices.filter {cards[$0].isSelected}
+    }
+    private var currentlyMatchedCardIndices: [Int] {
+        return cards.indices.filter { cards[$0].isMatched }
+    }
+    
+    func isFinished() -> Bool {
+        return cards.filter { $0.isMatched }.count == cards.count
+    }
     
     mutating func choseCard(atIndex index: Int) {
         if !successfullyMatchedCards.contains(cards[index]) {
-            if selectedCardIndices.count == 3 {
+            if selectedCardIndices.count == GameConstants.numberOfCardsToMatch {
                 for index in selectedCardIndices {
                     cards[index].isSelected = false
                 }
@@ -26,14 +34,14 @@ struct SetGame {
                 if !currentlyMatchedCardIndices.isEmpty { dealMore() }
             } else {
                 cards[index].isSelected = !cards[index].isSelected
-                if selectedCardIndices.count == 3 { checkForMatchingCards() }
+                if selectedCardIndices.count == GameConstants.numberOfCardsToMatch { checkForMatchingCards() }
             }
         }
     }
 
     mutating func dealMore() {
         if cardDeck.count > 0 {
-            for _ in 0..<3 {
+            for _ in 0..<GameConstants.numberOfCardsToMatch {
                 let randomCard = cardDeck.remove(at: Int.random(in: 0..<cardDeck.count))
                 if currentlyMatchedCardIndices.isEmpty {
                     cards.append(randomCard)
